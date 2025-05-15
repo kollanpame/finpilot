@@ -25,3 +25,20 @@ class TransactionService:
         self.db.delete(transaction)
         self.db.commit()
         return {"message": "Transaction deleted successfully"}
+    
+router = APIRouter(prefix="/transactions", tags=["Transactions"])
+
+@router.get("/")
+def get_transactions(db: Session = Depends(get_db)):
+    service = TransactionService(db)
+    return service.get_all()
+
+@router.post("/")
+def create_transaction(name: str, amount: float, user_id: uuid.UUID, db: Session = Depends(get_db)):
+    service = TransactionService(db)
+    return service.create(name, amount, user_id)
+
+@router.delete("/{transaction_id}")
+def delete_transaction(transaction_id: uuid.UUID, db: Session = Depends(get_db)):
+    service = TransactionService(db)
+    return service.delete(transaction_id)
