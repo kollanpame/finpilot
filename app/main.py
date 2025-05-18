@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 
 # Importujemy nasze routery (trasowania) z aplikacji
-from app.routers import transactions, reports, categories
+from app.routers import transactions, reports, categories, plaid
 
 # Tworzymy instancję aplikacji FastAPI z metadanymi
 app = FastAPI(
@@ -30,3 +30,6 @@ app.include_router(reports.router, prefix="/reports", tags=["Reports"])
 
 # Dołączamy router trasowania kategorii
 app.include_router(categories.router, prefix="/categories", tags=["Categories"])
+
+# Dołączamy router trasowania plaid
+app.include_router(plaid.router)
