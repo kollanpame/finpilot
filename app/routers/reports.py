@@ -17,7 +17,7 @@ class ReportService:
 # Router FastAPI z prefixem /reports i tagiem "Reports"
 router = APIRouter(prefix="/reports", tags=["Reports"])
 
-#Endpoint do pobierania icpodsumowania wydatków z ostatniego miesiąca
+#Endpoint do pobierania i podsumowania wydatków z ostatniego miesiąca
 @router.get("/summary")
 def get_summary(db: Session = Depends(get_db)):
     service = ReportService(db)

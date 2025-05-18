@@ -39,7 +39,7 @@ def get_categories(db: Session = Depends(get_db)):
     service = CategoryService(db)
     return service.get_all()
 
-#ENdpoint tworzący nową kategorię
+#Endpoint tworzący nową kategorię
 @router.post("/")
 def create_category(name: str, db: Session = Depends(get_db)):
     service = CategoryService(db)
