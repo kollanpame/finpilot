@@ -5,7 +5,7 @@ router = APIRouter(prefix="/plaid", tags=["Plaid"])
 
 @router.get("/institutions")
 async def list_institutions():
-    # Пример запроса — получаем список банков
+    # Przykładowe zapytanie — pobieramy listę banków
     request = {
         "count": 10,
         "offset": 0,
