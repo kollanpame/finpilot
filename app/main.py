@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 
 # Importujemy nasze routery (trasowania) z aplikacji
-from app.routers import transactions, reports, categories, plaid
+from app.routers import users, transactions, reports, categories, plaid
 
 # Tworzymy instancję aplikacji FastAPI z metadanymi
 app = FastAPI(
@@ -21,6 +21,9 @@ async def root():
         <p>Please, open <a href="/docs">Swagger UI</a> for using it with API.</p>
         """
     )
+
+# Dołączamy router trasowania użytkowników
+app.include_router(users.router, prefix="/users", tags=["Users"])
 
 # Dołączamy router trasowania transakcji
 app.include_router(transactions.router, prefix="/transactions", tags=["Transactions"])
