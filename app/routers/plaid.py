@@ -1,16 +1,37 @@
-from fastapi import APIRouter
+from fastapi import Depends, HTTPException
+from sqlalchemy.orm import Session
+from app.db.database import get_db
+from app.models import Institution  # adjust import as needed
 from app.services.plaid_client import plaid_client
+from fastapi import APIRouter
+
 
 router = APIRouter(prefix="/plaid", tags=["Plaid"])
 
-@router.get("/institutions")
-async def list_institutions():
-    # Przykładowe zapytanie — pobieramy listę 
+@router.post("/import-institutions")
+async def import_institutions(db: Session = Depends(get_db)):
     request = {
-        "count": 10,
+        "count": 20,
         "offset": 0,
         "country_codes": ["US"]
     }
-    response = plaid_client.institutions_get(request)
-    return response.to_dict()
 
+    response = plaid_client.institutions_get(request)
+    institutions = response.to_dict().get("institutions", [])
+
+    imported = 0
+    for inst in institutions:
+        if db.query(Institution).filter_by(id=inst["institution_id"]).first():
+            continue  # Skip if already exists
+
+        db_institution = Institution(
+            id=inst["institution_id"],
+            name=inst["name"],
+            country_codes=",".join(inst["country_codes"])
+        )
+
+        db.add(db_institution)
+        imported += 1
+
+    db.commit()
+    return {"imported": imported, "total_fetched": len(institutions)}
