@@ -19,7 +19,6 @@ Backend dla zarządzania transakcjami finansowymi ze Swagger UI
 
 # STRUKTURA PROJEKTU
 <pre lang="text"><code>
-
 ├── app/
 │   ├──alembic
 │   │   ├──versions
@@ -40,8 +39,8 @@ Backend dla zarządzania transakcjami finansowymi ze Swagger UI
 │   │   ├── category.py
 │   │   └── user.py
 │   ├── db/  
-│   │   ├── database.py  # Підключення до SQLite/PostgreSQL   
-│   ├── services/  
+│   │   ├── database.py  # PostgreSQL connection
+│   ├── services/
 │   │   ├── import_service.py 
 │   │   ├── plaid_client.py # Ustawienia Plaid
 │   
@@ -51,8 +50,6 @@ Backend dla zarządzania transakcjami finansowymi ze Swagger UI
 └── README.md  # Opis  </code></pre>
 
 # DOKUMENTACJA API
-
-## 🧪 API Documentation
 
 Po uruchomieniu lokalnej bazy danych, Swagger UI jest dostępne tutaj:  
 **http://localhost:8000/docs**
