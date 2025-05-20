@@ -22,9 +22,9 @@ async def import_institutions(db: Session = Depends(get_db)):
     imported = 0
     for inst in institutions:
         if db.query(Institution).filter_by(id=inst["institution_id"]).first():
-            continue  # Skip if already exists
+            continue  # Omijaj jak już istnieje
 
-        db_institution = Institution(
+        db_institution = Institution( #Schemat za którym wpisujemy nazwy instytucji bankowych do bazy SQL
             id=inst["institution_id"],
             name=inst["name"],
             country_codes=",".join(inst["country_codes"])
