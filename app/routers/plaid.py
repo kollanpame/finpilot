@@ -13,3 +13,4 @@ async def list_institutions():
     }
     response = plaid_client.institutions_get(request)
     return response.to_dict()
+
