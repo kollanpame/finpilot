@@ -2,17 +2,26 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from app.db.database import get_db
 from app.models.transaction import Transaction
+from app.models.user import User
 from datetime import datetime, timedelta
+import uuid
 
 class ReportService:
     def __init__(self, db: Session):
         self.db = db
 
-    def get_summary(self):
-        last_month = datetime.now() - timedelta(days=30) #oblicza daty sprzed ostatnie 30 dni
-        total_spent = self.db.query(Transaction).filter(Transaction.date >= last_month).all() #pobiera wszystko z tego okresu
-        total_amount = sum([t.amount for t in total_spent]) #Sumuje wszystkie kwoty z podanego okresu
-        return {"total_spent": total_amount} #Zwrocenie wyniku słownie
+    def get_summary(self, user_id: uuid.UUID):
+        last_month = datetime.now() - timedelta(days=30)  # 30 days ago
+        user_transactions = (
+            self.db.query(Transaction)
+            .filter(
+                Transaction.user_id == user_id,     # Filter by specific user
+                Transaction.date >= last_month      # Filter by date
+            )
+            .all()
+        )
+        total_amount = sum(t.amount for t in user_transactions)  # Total only user's amounts
+        return {"total_spent": total_amount}
     
 # Router FastAPI z prefixem /reports i tagiem "Reports"
 router = APIRouter(prefix="/reports", tags=["Reports"])

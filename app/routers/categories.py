@@ -5,7 +5,7 @@ from app.models.category import Category
 import uuid
 
 class CategoryService:
-    def __init__(self, db: Session):
+    def __init__(self, db: Session): #sesja bd
         self.db = db
 
     def get_all(self):
@@ -39,7 +39,7 @@ def get_categories(db: Session = Depends(get_db)):
     service = CategoryService(db)
     return service.get_all()
 
-#Endpoint tworzący nową kategorię
+#ENdpoint tworzący nową kategorię
 @router.post("/")
 def create_category(name: str, db: Session = Depends(get_db)):
     service = CategoryService(db)

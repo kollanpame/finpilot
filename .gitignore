@@ -1,5 +1,5 @@
 # Python
-__pycache__/
+__pycache__/  
 *.py[cod]
 *.egg
 *.egg-info/
@@ -9,7 +9,7 @@ build/
 *.sqlite3
 
 # Environment
-.env
+.env 
 
 # Virtualenv
 .venv/
